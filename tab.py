@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-# Copyright (c) 2013 Bart Massey
 # Tabulate Borda Count votes
 
 from sys import stdin

@@ -27,6 +27,8 @@ The programs (in the order they were written) are:
 
 * `tab-py.hs`: Python version for comparison.
 
+* `tab.c`: C version for comparison.
+
 To build these programs, just type `make`.
 
 The performance differences of these programs are pretty
