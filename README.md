@@ -25,6 +25,8 @@ The programs (in the order they were written) are:
 * `tab-fast.hs`: Accumulates votes into a candidate vote
   totals list on the fly. Not terribly fast.
 
+* `tab-py.hs`: Python version for comparison.
+
 To build these programs, just type `make`.
 
 The performance differences of these programs are pretty
