@@ -1,6 +1,9 @@
 -- Copyright © 2013 Bart Massey
--- Tabulate PNW Enlightened Logo votes
--- using Borda Count (or thereabouts).
+-- [This program is licensed under the "MIT License"]
+-- Please see the file COPYING in the source
+-- distribution of this software for license terms.
+
+-- Tabulate votes using Borda Count (or thereabouts).
 
 import Text.Printf
 
