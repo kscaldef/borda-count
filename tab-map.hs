@@ -4,7 +4,6 @@
 
 import Data.Ord
 import Data.List (sortBy)
-import Data.Char
 import Text.Printf
 import qualified Data.Map as M
 
@@ -19,5 +18,5 @@ main = do
               filter ((/= '-') . fst) $
               M.toList $ M.fromListWith (+) $
               concatMap (flip zip [6 :: Int, 5 .. 1]) $ 
-              lines $ map toLower voteText
+              lines voteText
   mapM_ (\(c, v) -> printf "%c: %d\n" c v) votes

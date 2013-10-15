@@ -4,7 +4,6 @@
 
 import Data.Ord
 import Data.List
-import Data.Char
 import Text.Printf
 
 main :: IO ()
@@ -20,6 +19,6 @@ main = do
               filter ((/= '-') . fst) $
               map (\l -> (head l, length l)) $ group $ sort $
               concat $ concat $ zipWith replicate [6,5..1] $
-              transpose $ lines $ map toLower voteText
+              transpose $ lines voteText
   mapM_ (\(c, v) -> printf "%c: %d\n" c v) votes
 
