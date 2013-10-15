@@ -5,6 +5,7 @@
 
 -- Tabulate votes using Borda Count (or thereabouts).
 
+import Control.DeepSeq
 import Data.Ord
 import Data.List
 import Data.Char
@@ -17,7 +18,7 @@ acc :: [Int] -> (Char, Int) -> [Int]
 acc a ('-', _) = a
 acc a (c, v) =
   let i = ord c - ord 'a' in
-  let (pre, target : post) = splitAt i a in
+  let (pre, target : post) = splitAt i $!! a in
   pre ++ [target + v] ++ post
 
 main :: IO ()
