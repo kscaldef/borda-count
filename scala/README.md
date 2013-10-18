@@ -12,4 +12,13 @@ sbt 'run-main votecount.RunAlgebird ../votes.txt'
 
 or
 
+sbt 'run-main votecount.RunScalaz ../votes.txt'
+
+or
+
 sbt 'run-main votecount.RunVars ../votes.txt'
+
+
+to benchmark all implementations (which don't overflow the stack when fed votes20.txt),
+
+sbt 'run-main votecount.RunBenchmark'
