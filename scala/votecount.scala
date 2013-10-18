@@ -1,17 +1,21 @@
-import com.twitter.algebird._
-import com.twitter.algebird.Operators._
+package votecount
 
-object VoteCount extends App {
+
+trait VoteCount {
+  def tally(lines: Iterator[String]): Map[Char, Int]
+}
+
+trait AlgebirdMonoid extends VoteCount {
+  import com.twitter.algebird._
+  import com.twitter.algebird.Operators._
+
   val weights = Range(6,0,-1)
-  val lines = io.Source.stdin.getLines
 
-  val tally = monoidTally(lines)
+  def tally(lines: Iterator[String]) = Monoid.sum(lines.map { _.zip(weights).toMap })
+}
 
-  tally.map(println)
-
-  def monoidTally(lines: Iterator[String]) = Monoid.sum(lines.map { l => Map(l.zip(weights): _*) })
-
-  def varTally(lines: Iterator[String]) = {
+trait Vars extends VoteCount {
+  def tally(lines: Iterator[String]) = {
     var a,b,c,d,e,f = 0
 
     lines.foreach { l =>
@@ -33,3 +37,14 @@ object VoteCount extends App {
     Map('a' -> a, 'b' -> b, 'c' -> c, 'd' -> d, 'e' -> e, 'f' -> f)
   }
 }
+
+class Runner extends App {
+  self: VoteCount =>
+
+  val lines = io.Source fromFile args.head getLines
+
+  tally(lines).map(println)
+}
+
+object RunAlgebird extends Runner with AlgebirdMonoid
+object RunVars extends Runner with Vars
