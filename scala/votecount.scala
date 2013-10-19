@@ -10,7 +10,15 @@ trait AlgebirdMonoid extends VoteCount {
   import com.twitter.algebird._
   import com.twitter.algebird.Operators._
 
+  // Monoid.sum is specialized for MapMonoids
   def tally(lines: Iterator[String]) = Monoid.sum(lines.map { _.zip(weights).toMap })
+}
+
+trait AlgebirdMonoid2 extends VoteCount {
+  import com.twitter.algebird._
+  import com.twitter.algebird.Operators._
+
+  def tally(lines: Iterator[String]) = (lines.map { _.zip(weights).toMap }).reduceLeft(_ + _)
 }
 
 trait ScalazMonoid extends VoteCount {
@@ -20,6 +28,12 @@ trait ScalazMonoid extends VoteCount {
   import scalaz.syntax.traverse._  // .foldMap method
 
   def tally(lines: Iterator[String]) = lines.toStream.foldMap(_.zip(weights).toMap)
+}
+
+trait SpireMonoid extends VoteCount {
+  import spire.implicits._
+
+  def tally(lines: Iterator[String]) = (lines.map { _.zip(weights).toMap }).reduceLeft(_ + _)
 }
 
 trait Vars extends VoteCount {
@@ -55,7 +69,9 @@ class Runner extends App {
 }
 
 object RunAlgebird extends Runner with AlgebirdMonoid
+object RunAlgebird2 extends Runner with AlgebirdMonoid2
 object RunScalaz extends Runner with ScalazMonoid
+object RunSpire extends Runner with SpireMonoid
 object RunVars extends Runner with Vars
 
 object RunBenchmark extends App {
@@ -71,7 +87,9 @@ object RunBenchmark extends App {
 
   Seq(
     ("Vars", new Vars { }),
-    ("AlgebirdMonoid", new AlgebirdMonoid { })
+    ("AlgebirdMonoid (Monoid.sum)", new AlgebirdMonoid { }),
+    ("AlgebirdMonoid2 (reduceLeft +)", new AlgebirdMonoid2 { }),
+    ("SpireMonoid", new SpireMonoid { })
     // ("ScalazMonoid", new ScalazMonoid { })   -- stack overflow
   ).map(run)
 
